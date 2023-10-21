@@ -1,0 +1,11 @@
+# Mac OS X files
+.DS_Store
+
+# IDE preferences folders
+/.vscode
+/.vs
+.idea/
+node_modules
+
+.env
+src/cmd/service

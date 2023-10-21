@@ -34,8 +34,7 @@ func (srv *Microservice) Run() {
 	)
 
 	router.GET("/", srv.indexHandler)
-	router.GET("/v1", srv.indexHandler)
-	router.GET("/v1/sum", srv.sumHandler)
+	router.GET("/sum", srv.sumHandler)
 
 	log.Info().Msgf("Microservice %s listening on %s:%d", version.ServiceName, srv.cfg.ServiceBind, srv.cfg.ServicePort)
 	err := http.ListenAndServe(fmt.Sprintf("%s:%d", srv.cfg.ServiceBind, srv.cfg.ServicePort), router)
@@ -56,7 +55,7 @@ func (srv *Microservice) sumHandler(w http.ResponseWriter, r bunrouter.Request) 
 	_, span := tracing.Tracer().Start(r.Context(), "service.sumHandler")
 	defer span.End()
 
-	amount, err := utils.Sum(srv.cfg.SumURL)
+	amount, err := utils.Sum(srv.cfg.SumURL, srv.dbm.RWMutex)
 	if err != nil {
 		return utils.ReturnJSON(w, err.Error(), http.StatusInternalServerError)
 	}
