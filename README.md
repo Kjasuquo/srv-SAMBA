@@ -21,6 +21,3 @@ SAMPLE RESPONSE
 - `tidy` - runs go mod tidy in the `src` folder
 - `run` - runs the code without build
 
-## Concerns
-While working on the task, the given url `https://data.cityofchicago.org/resource/ydr8-5enu.json` was temporary unavailable
-
