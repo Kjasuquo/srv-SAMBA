@@ -3,13 +3,15 @@ package db
 import (
 	"context"
 	"fmt"
+	"github.com/kjasuquo/srv-SAMBA/version"
 
 	"github.com/rs/zerolog/log"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/migrate"
 
-	sharedDb "github.com/SAMBA-Research/microservice-shared/db"
-	//"github.com/SAMBA-Research/microservice-template/cmd/migrations"
+	sharedDb "github.com/SAMBA-Research/microservice-shared/odb"
+
+	"github.com/kjasuquo/srv-SAMBA/cmd/migrations"
 	"github.com/kjasuquo/srv-SAMBA/internal/config"
 	"github.com/kjasuquo/srv-SAMBA/internal/utils"
 )
@@ -46,7 +48,7 @@ func (cm *DbConnectionManager) GetDbConnection(tenant string) (db *bun.DB, err e
 	// Double check
 	db, found = cm.connections[cnKey]
 	if !found {
-		db, err = sharedDb.NewDbConnection(cnKey)
+		db, err = sharedDb.NewDbConnection(cm.cfg.Environment, tenant, version.ServiceName)
 		if err == nil {
 			cm.dbMigrate(db, tenant, cnKey)
 			cm.connections[cnKey] = db

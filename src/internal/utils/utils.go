@@ -13,6 +13,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	sync "github.com/sasha-s/go-deadlock"
@@ -255,4 +256,36 @@ type BiggishNumber interface {
 
 func BToMB[T BiggishNumber](n T) T {
 	return n / T(1024*1024)
+}
+
+func ReturnJSON(w http.ResponseWriter, v any, code int) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+	w.WriteHeader(code)
+	_, err = w.Write(b)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func Sum(url string) (float64, error) {
+	m := &[]map[string]interface{}{}
+	var sumNum float64
+	err := getHTTPJSON(url, m)
+	if err != nil {
+		return 0, err
+	}
+
+	for _, v := range *m {
+		s, err := strconv.ParseFloat(v["subtotal_paid"].(string), 64)
+		if err != nil {
+			return 0, err
+		}
+		sumNum = sumNum + s
+	}
+
+	return sumNum, nil
 }

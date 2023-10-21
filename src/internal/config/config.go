@@ -19,6 +19,7 @@ type GenericConfig struct {
 type Config struct {
 	MonitoringConfig
 	GenericConfig
+	SumURL string `env:"SUM_URL" envDefault:"https://data.cityofchicago.org/resource/ydr8-5enu.json"`
 }
 
 func InitConfig() (cfg *Config, err error) {
