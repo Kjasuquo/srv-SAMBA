@@ -280,11 +280,12 @@ func Sum(url string, mu sync.RWMutex) (float64, error) {
 	}
 
 	for _, v := range *m {
+		mu.Lock()
 		s, err := strconv.ParseFloat(v["subtotal_paid"].(string), 64)
 		if err != nil {
 			return 0, err
 		}
-		mu.Lock()
+
 		sumNum += s
 		mu.Unlock()
 	}

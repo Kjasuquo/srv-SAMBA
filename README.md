@@ -4,6 +4,16 @@ The function that makes the call to the given url can be found in the utils whil
 The given url is passed in from the config. 
 - Mutex is also used in the integration to avoid race condition.
 
+## Set up
+In order to set up the code base locally, you would need to set up an access token on GitHub because we are using a private module `github.com/SAMBA-Research/microservice-shared`. 
+On your terminal, run:
+- `export GOPRIVATE=github.com/SAMBA-Research/microservice-shared`.
+- `export GONOPROXY=localhost`
+- `export GITHUB_ACCESS_TOKEN=<your-token>`
+- `git config --global url."https://$GITHUB_ACCESS_TOKEN:x-oauth-basic@github.com/".insteadOf "https://github.com/"`
+- `go get github.com/SAMBA-Research/microservice-shared`.
+
+
 ## Building and running the service executable
 - Build the service executable with the command `make build`. This will build the service executable in `src/cmd`.
 - After building the service, the service can be tested with `./src/cmd/service`
