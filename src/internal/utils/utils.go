@@ -271,7 +271,7 @@ func ReturnJSON(w http.ResponseWriter, v any, code int) error {
 	return nil
 }
 
-func Sum(url string, mu sync.RWMutex) (float64, error) {
+func Sum(url string) (float64, error) {
 	m := &[]map[string]interface{}{}
 	var sumNum float64
 	err := getHTTPJSON(url, m)
@@ -280,14 +280,11 @@ func Sum(url string, mu sync.RWMutex) (float64, error) {
 	}
 
 	for _, v := range *m {
-		mu.Lock()
 		s, err := strconv.ParseFloat(v["subtotal_paid"].(string), 64)
 		if err != nil {
 			return 0, err
 		}
-
 		sumNum += s
-		mu.Unlock()
 	}
 
 	return sumNum, nil

@@ -2,7 +2,6 @@
 This service is written using SAMBA-Research/microservice-template in accordance with the instructions. 
 The function that makes the call to the given url can be found in the utils while the sum endpoint is implemented in service (microservice folder). 
 The given url is passed in from the config. 
-- Mutex is also used in the integration to avoid race condition.
 
 ## Set up
 In order to set up the code base locally, you would need to set up an access token on GitHub because we are using a private module `github.com/SAMBA-Research/microservice-shared`. 

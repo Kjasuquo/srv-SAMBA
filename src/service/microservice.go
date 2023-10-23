@@ -55,7 +55,7 @@ func (srv *Microservice) sumHandler(w http.ResponseWriter, r bunrouter.Request) 
 	_, span := tracing.Tracer().Start(r.Context(), "service.sumHandler")
 	defer span.End()
 
-	amount, err := utils.Sum(srv.cfg.SumURL, srv.dbm.RWMutex)
+	amount, err := utils.Sum(srv.cfg.SumURL)
 	if err != nil {
 		return utils.ReturnJSON(w, err.Error(), http.StatusInternalServerError)
 	}
